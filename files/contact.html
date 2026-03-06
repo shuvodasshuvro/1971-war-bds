@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact the Liberation War Archive administrators.">
+    <title>Contact — Liberation War Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root { --ink:#1a1208; --parchment:#f5efe0; --aged:#e8d9b5; --sepia:#8b6914; --deep-red:#8b1a1a; --gold:#c9a84c; --smoke:#2d2416; --ash:#6b5d4a; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { background:var(--ink); color:var(--parchment); font-family:'EB Garamond',serif; font-size:18px; line-height:1.7; overflow-x:hidden; }
+        body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; opacity:0.4; }
+
+        nav { position:fixed; top:0; left:0; right:0; z-index:1000; padding:0 3rem; display:flex; align-items:center; justify-content:space-between; height:70px; background:rgba(26,18,8,0.97); backdrop-filter:blur(8px); border-bottom:1px solid rgba(201,168,76,0.25); }
+        .nav-brand { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:0.15em; color:var(--gold); text-decoration:none; }
+        .nav-links { display:flex; gap:2.5rem; list-style:none; }
+        .nav-links a { font-family:'EB Garamond',serif; font-size:0.95rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--aged); text-decoration:none; position:relative; transition:color 0.3s; }
+        .nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; right:0; height:1px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s; }
+        .nav-links a:hover { color:var(--gold); } .nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); } .nav-links a.active { color:var(--gold); }
+        .nav-toggle { display:none; background:none; border:1px solid var(--gold); color:var(--gold); padding:0.4rem 0.7rem; cursor:pointer; font-size:1.2rem; }
+
+        .page-header { min-height:40vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:8rem 2rem 4rem; background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(139,105,20,0.1) 0%, transparent 70%), linear-gradient(180deg,#1a1208 0%,#0f0b05 100%); position:relative; overflow:hidden; }
+        .page-header::before { content:'CONTACT'; font-family:'Bebas Neue',sans-serif; font-size:clamp(8rem,25vw,20rem); color:rgba(201,168,76,0.04); position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); letter-spacing:0.05em; pointer-events:none; white-space:nowrap; }
+        .page-eyebrow { font-family:'Bebas Neue',sans-serif; letter-spacing:0.35em; font-size:0.8rem; color:var(--gold); margin-bottom:1rem; }
+        .page-title { font-family:'Playfair Display',serif; font-size:clamp(2.5rem,7vw,5.5rem); font-weight:900; color:var(--parchment); line-height:1; }
+        .page-title em { font-style:italic; color:var(--gold); }
+        .page-sub { font-size:1.1rem; color:var(--ash); margin-top:1.5rem; font-style:italic; max-width:500px; }
+
+        /* MAIN LAYOUT */
+        .contact-main { max-width:1100px; margin:0 auto; padding:5rem 2rem 6rem; display:grid; grid-template-columns:1fr 1.5fr; gap:6rem; align-items:start; }
+
+        /* LEFT PANEL */
+        .contact-info {}
+        .info-label { font-family:'Bebas Neue',sans-serif; letter-spacing:0.3em; font-size:0.75rem; color:var(--gold); margin-bottom:1rem; }
+        .info-title { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:700; color:var(--parchment); line-height:1.1; margin-bottom:1.5rem; }
+        .info-title em { font-style:italic; color:var(--gold); }
+        .info-body { font-size:1rem; color:var(--ash); line-height:1.8; margin-bottom:3rem; }
+
+        .contact-details { display:flex; flex-direction:column; gap:1.5rem; }
+        .contact-item { display:flex; gap:1.2rem; align-items:flex-start; }
+        .contact-icon { font-size:1.3rem; margin-top:0.2rem; flex-shrink:0; }
+        .contact-item-label { font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:0.2rem; }
+        .contact-item-val { font-size:1rem; color:var(--aged); }
+        .contact-item-val a { color:var(--aged); text-decoration:none; transition:color 0.3s; }
+        .contact-item-val a:hover { color:var(--gold); }
+
+        .divider { width:60px; height:1px; background:linear-gradient(to right, var(--gold), transparent); margin:2.5rem 0; }
+
+        .contribute-box { background:var(--smoke); border:1px solid rgba(201,168,76,0.2); padding:2rem; margin-top:3rem; }
+        .contribute-box h3 { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:var(--parchment); margin-bottom:0.8rem; }
+        .contribute-box p { font-size:0.95rem; color:var(--ash); line-height:1.7; }
+
+        /* FORM */
+        .contact-form-wrap {}
+        .form-title { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--parchment); margin-bottom:2.5rem; }
+
+        .form-group { margin-bottom:1.8rem; }
+        .form-label { display:block; font-size:0.8rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:0.6rem; }
+        .form-control { width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(201,168,76,0.2); color:var(--parchment); font-family:'EB Garamond',serif; font-size:1.05rem; padding:0.9rem 1.2rem; outline:none; transition:border-color 0.3s, background 0.3s; resize:none; }
+        .form-control::placeholder { color:var(--ash); }
+        .form-control:focus { border-color:var(--gold); background:rgba(201,168,76,0.03); }
+
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+
+        .form-select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 1rem center; }
+
+        .file-upload-area { border:1px dashed rgba(201,168,76,0.3); padding:2rem; text-align:center; cursor:pointer; transition:border-color 0.3s, background 0.3s; }
+        .file-upload-area:hover { border-color:var(--gold); background:rgba(201,168,76,0.04); }
+        .file-upload-area input { display:none; }
+        .file-icon { font-size:2rem; margin-bottom:0.5rem; }
+        .file-text { font-size:0.9rem; color:var(--ash); }
+        .file-text strong { color:var(--gold); }
+
+        .submit-btn { width:100%; padding:1.1rem 2rem; background:var(--gold); color:var(--ink); font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; letter-spacing:0.05em; border:none; cursor:pointer; transition:background 0.3s, transform 0.2s; margin-top:0.5rem; }
+        .submit-btn:hover { background:var(--parchment); transform:translateY(-2px); }
+
+        /* SUCCESS MESSAGE */
+        .success-msg { display:none; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.3); padding:1.5rem 2rem; margin-top:1.5rem; color:var(--aged); font-style:italic; }
+        .success-msg.show { display:block; }
+
+        footer { background:#0d0905; border-top:1px solid rgba(201,168,76,0.2); padding:3rem 2rem; text-align:center; }
+        .footer-brand { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:0.2em; color:var(--gold); margin-bottom:1rem; }
+        .footer-links { display:flex; justify-content:center; gap:2rem; list-style:none; margin-bottom:1.5rem; }
+        .footer-links a { font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ash); text-decoration:none; transition:color 0.3s; }
+        .footer-links a:hover { color:var(--gold); }
+        .footer-copy { font-size:0.85rem; color:rgba(107,93,74,0.6); }
+
+        .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        @media (max-width:900px) { .contact-main { grid-template-columns:1fr; gap:3rem; } .form-row { grid-template-columns:1fr; } }
+        @media (max-width:768px) { .nav-toggle { display:block; } .nav-links { position:fixed; top:70px; left:0; right:0; background:rgba(26,18,8,0.98); flex-direction:column; gap:0; padding:1rem 0; transform:translateY(-110%); transition:transform 0.3s; border-bottom:1px solid rgba(201,168,76,0.2); } .nav-links.open { transform:translateY(0); } .nav-links a { display:block; padding:0.9rem 2rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="nav-brand" href="index.html">Liberation War Archive</a>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doc.html">Documents</a></li>
+            <li><a href="interview.html">Interviews</a></li>
+            <li><a href="photo.html">Photographs</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <div class="page-eyebrow">Get in Touch · Contribute</div>
+        <h1 class="page-title">Reach<br><em>the Archive</em></h1>
+        <p class="page-sub">Share your story, contribute materials, or ask a question.</p>
+    </header>
+
+    <main class="contact-main">
+
+        <!-- LEFT: INFO -->
+        <div class="contact-info reveal">
+            <div class="info-label">About</div>
+            <h2 class="info-title">Help Us <em>Preserve History</em></h2>
+            <p class="info-body">If you have documents, photographs, or firsthand accounts of Bangladesh's Liberation War of 1971, we welcome your contributions. Every piece of evidence helps ensure this history is never forgotten.</p>
+
+            <div class="contact-details">
+                <div class="contact-item">
+                    <div class="contact-icon">✉</div>
+                    <div>
+                        <div class="contact-item-label">Email</div>
+                        <div class="contact-item-val"><a href="mailto:admin@liberationwararchive.com">admin@liberationwararchive.com</a></div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🕐</div>
+                    <div>
+                        <div class="contact-item-label">Response Time</div>
+                        <div class="contact-item-val">We typically respond within 3–5 business days.</div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🌍</div>
+                    <div>
+                        <div class="contact-item-label">Languages</div>
+                        <div class="contact-item-val">Bangla & English accepted.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="contribute-box">
+                <h3>📦 Donating Physical Materials?</h3>
+                <p>We accept original documents, photographs, and recordings. All donated materials are professionally digitized and credited to the donor. Contact us first to arrange secure transfer.</p>
+            </div>
+        </div>
+
+        <!-- RIGHT: FORM -->
+        <div class="contact-form-wrap reveal">
+            <h2 class="form-title">Send a Message</h2>
+
+            <div id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="fname">Full Name</label>
+                        <input type="text" class="form-control" id="fname" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="purpose">Purpose of Contact</label>
+                    <select class="form-control form-select" id="purpose">
+                        <option value="">Select a reason…</option>
+                        <option>General Inquiry</option>
+                        <option>Contribute a Document</option>
+                        <option>Share Photographs</option>
+                        <option>Submit an Interview</option>
+                        <option>Research Request</option>
+                        <option>Media & Press</option>
+                        <option>Report an Error</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="subject">Subject</label>
+                    <input type="text" class="form-control" id="subject" placeholder="Brief subject line">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="message">Message</label>
+                    <textarea class="form-control" id="message" rows="6" placeholder="Write your message here…" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Attach a File (Optional)</label>
+                    <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" onchange="updateFileName(this)">
+                        <div class="file-icon">📎</div>
+                        <div class="file-text"><strong>Click to upload</strong> or drag and drop<br>PDF, JPG, PNG, MP4 — max 50MB</div>
+                        <div id="fileName" style="margin-top:0.5rem;font-size:0.85rem;color:var(--gold);"></div>
+                    </div>
+                </div>
+
+                <button class="submit-btn" onclick="submitForm()">Submit Inquiry →</button>
+
+                <div class="success-msg" id="successMsg">
+                    ✓ Your message has been received. Thank you for contributing to the preservation of this history. We will be in touch soon.
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-brand">Liberation War Archive</div>
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doc.html">Documents</a></li>
+            <li><a href="interview.html">Interviews</a></li>
+            <li><a href="photo.html">Photographs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <p class="footer-copy">&copy; 2026 Liberation War Archive. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries=>entries.forEach((e,i)=>{ if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*150); }),{threshold:0.08});
+        reveals.forEach(el=>observer.observe(el));
+
+        function updateFileName(input) {
+            const el = document.getElementById('fileName');
+            el.textContent = input.files.length ? '📄 ' + input.files[0].name : '';
+        }
+
+        function submitForm() {
+            const name = document.getElementById('fname').value;
+            const email = document.getElementById('email').value;
+            const msg = document.getElementById('message').value;
+            if (!name || !email || !msg) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            document.getElementById('successMsg').classList.add('show');
+            document.getElementById('successMsg').scrollIntoView({behavior:'smooth', block:'nearest'});
+        }
+
+        // Drag & drop
+        const dropZone = document.querySelector('.file-upload-area');
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor = 'var(--gold)'; });
+        dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = ''; });
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.style.borderColor = '';
+            document.getElementById('fileInput').files = e.dataTransfer.files;
+            updateFileName(document.getElementById('fileInput'));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gallery of photographs from Bangladesh's Liberation War.">
+    <title>Photographs — Liberation War Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root { --ink:#1a1208; --parchment:#f5efe0; --aged:#e8d9b5; --sepia:#8b6914; --deep-red:#8b1a1a; --gold:#c9a84c; --smoke:#2d2416; --ash:#6b5d4a; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { background:var(--ink); color:var(--parchment); font-family:'EB Garamond',serif; font-size:18px; line-height:1.7; overflow-x:hidden; }
+        body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; opacity:0.4; }
+
+        nav { position:fixed; top:0; left:0; right:0; z-index:1000; padding:0 3rem; display:flex; align-items:center; justify-content:space-between; height:70px; background:rgba(26,18,8,0.97); backdrop-filter:blur(8px); border-bottom:1px solid rgba(201,168,76,0.25); }
+        .nav-brand { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:0.15em; color:var(--gold); text-decoration:none; }
+        .nav-links { display:flex; gap:2.5rem; list-style:none; }
+        .nav-links a { font-family:'EB Garamond',serif; font-size:0.95rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--aged); text-decoration:none; position:relative; transition:color 0.3s; }
+        .nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; right:0; height:1px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s; }
+        .nav-links a:hover { color:var(--gold); } .nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); } .nav-links a.active { color:var(--gold); }
+        .nav-toggle { display:none; background:none; border:1px solid var(--gold); color:var(--gold); padding:0.4rem 0.7rem; cursor:pointer; font-size:1.2rem; }
+
+        .page-header { min-height:45vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:8rem 2rem 4rem; background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(139,105,20,0.12) 0%, transparent 70%), linear-gradient(180deg,#1a1208 0%,#0f0b05 100%); position:relative; overflow:hidden; }
+        .page-header::before { content:'GALLERY'; font-family:'Bebas Neue',sans-serif; font-size:clamp(8rem,25vw,20rem); color:rgba(201,168,76,0.04); position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); letter-spacing:0.05em; pointer-events:none; white-space:nowrap; }
+        .page-eyebrow { font-family:'Bebas Neue',sans-serif; letter-spacing:0.35em; font-size:0.8rem; color:var(--gold); margin-bottom:1rem; }
+        .page-title { font-family:'Playfair Display',serif; font-size:clamp(2.5rem,7vw,5.5rem); font-weight:900; color:var(--parchment); line-height:1; }
+        .page-title em { font-style:italic; color:var(--gold); }
+        .page-sub { font-size:1.1rem; color:var(--ash); margin-top:1.5rem; font-style:italic; }
+
+        /* FILTER */
+        .filter-bar { background:var(--smoke); border-top:1px solid rgba(201,168,76,0.15); border-bottom:1px solid rgba(201,168,76,0.15); padding:1.5rem 2rem; }
+        .filter-inner { max-width:1200px; margin:0 auto; display:flex; gap:1rem; flex-wrap:wrap; align-items:center; }
+        .filter-label { font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--ash); margin-right:0.5rem; }
+        .filter-btn { background:none; border:1px solid rgba(201,168,76,0.2); color:var(--ash); font-family:'EB Garamond',serif; font-size:0.9rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.4rem 1.2rem; cursor:pointer; transition:all 0.3s; }
+        .filter-btn.active, .filter-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,0.06); }
+
+        /* MASONRY GRID */
+        .gallery-main { max-width:1300px; margin:0 auto; padding:4rem 1.5rem 6rem; }
+
+        .masonry {
+            columns: 3;
+            column-gap: 4px;
+        }
+
+        .photo-item {
+            break-inside: avoid;
+            margin-bottom: 4px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            display: block;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            background: var(--smoke);
+            border: 1px solid rgba(201,168,76,0.1);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            transition: border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.7) 100%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .photo-item:hover .photo-placeholder::before { opacity: 1; }
+        .photo-item:hover .photo-placeholder { border-color: rgba(201,168,76,0.4); }
+
+        .photo-inner {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .photo-icon { font-size: 2.5rem; filter: sepia(0.5); }
+        .photo-caption { font-family:'Playfair Display',serif; font-size:1rem; font-style:italic; color:var(--parchment); text-align:center; line-height:1.3; }
+        .photo-date { font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--ash); }
+
+        .photo-zoom-hint { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); opacity:0; transition:opacity 0.3s; z-index:3; color:var(--gold); font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; text-align:center; }
+        .photo-item:hover .photo-zoom-hint { opacity:1; }
+
+        /* Height variations for masonry feel */
+        .h-sm .photo-placeholder { height: 200px; }
+        .h-md .photo-placeholder { height: 280px; }
+        .h-lg .photo-placeholder { height: 360px; }
+        .h-xl .photo-placeholder { height: 440px; }
+
+        /* LIGHTBOX */
+        .lightbox { display:none; position:fixed; inset:0; z-index:3000; background:rgba(5,3,1,0.96); backdrop-filter:blur(10px); align-items:center; justify-content:center; }
+        .lightbox.open { display:flex; }
+        .lb-content { max-width:900px; width:100%; padding:2rem; }
+        .lb-close { position:fixed; top:2rem; right:2rem; background:none; border:1px solid rgba(201,168,76,0.3); color:var(--gold); width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; cursor:pointer; transition:all 0.3s; }
+        .lb-close:hover { background:rgba(201,168,76,0.1); }
+        .lb-prev, .lb-next { position:fixed; top:50%; transform:translateY(-50%); background:none; border:1px solid rgba(201,168,76,0.3); color:var(--gold); width:50px; height:50px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; cursor:pointer; transition:all 0.3s; }
+        .lb-prev { left:2rem; } .lb-next { right:2rem; }
+        .lb-prev:hover, .lb-next:hover { background:rgba(201,168,76,0.1); border-color:var(--gold); }
+        .lb-img-area { width:100%; min-height:400px; background:var(--smoke); border:1px solid rgba(201,168,76,0.2); display:flex; align-items:center; justify-content:center; margin-bottom:1.5rem; flex-direction:column; gap:1.5rem; padding:3rem; text-align:center; }
+        .lb-big-icon { font-size:5rem; }
+        .lb-title { font-family:'Playfair Display',serif; font-size:1.6rem; font-style:italic; color:var(--parchment); }
+        .lb-meta { display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; }
+        .lb-meta-item { font-size:0.85rem; color:var(--ash); }
+        .lb-meta-item strong { color:var(--parchment); }
+        .lb-counter { text-align:center; font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--ash); margin-bottom:1rem; }
+
+        footer { background:#0d0905; border-top:1px solid rgba(201,168,76,0.2); padding:3rem 2rem; text-align:center; }
+        .footer-brand { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:0.2em; color:var(--gold); margin-bottom:1rem; }
+        .footer-links { display:flex; justify-content:center; gap:2rem; list-style:none; margin-bottom:1.5rem; }
+        .footer-links a { font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ash); text-decoration:none; transition:color 0.3s; }
+        .footer-links a:hover { color:var(--gold); }
+        .footer-copy { font-size:0.85rem; color:rgba(107,93,74,0.6); }
+
+        .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        @media (max-width:900px) { .masonry { columns:2; } }
+        @media (max-width:600px) { .masonry { columns:1; } }
+        @media (max-width:768px) { .nav-toggle { display:block; } .nav-links { position:fixed; top:70px; left:0; right:0; background:rgba(26,18,8,0.98); flex-direction:column; gap:0; padding:1rem 0; transform:translateY(-110%); transition:transform 0.3s; border-bottom:1px solid rgba(201,168,76,0.2); } .nav-links.open { transform:translateY(0); } .nav-links a { display:block; padding:0.9rem 2rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="nav-brand" href="index.html">Liberation War Archive</a>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doc.html">Documents</a></li>
+            <li><a href="interview.html">Interviews</a></li>
+            <li><a href="photo.html" class="active">Photographs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <div class="page-eyebrow">Visual Archive · Photographic Record</div>
+        <h1 class="page-title">Photographs<br><em>Gallery</em></h1>
+        <p class="page-sub">Images that bear witness to history.</p>
+    </header>
+
+    <div class="filter-bar">
+        <div class="filter-inner">
+            <span class="filter-label">Filter:</span>
+            <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+            <button class="filter-btn" onclick="setFilter('battle',this)">Battle</button>
+            <button class="filter-btn" onclick="setFilter('civilian',this)">Civilians</button>
+            <button class="filter-btn" onclick="setFilter('leadership',this)">Leadership</button>
+            <button class="filter-btn" onclick="setFilter('victory',this)">Victory</button>
+        </div>
+    </div>
+
+    <main class="gallery-main">
+        <div class="masonry" id="masonry">
+
+            <div class="photo-item h-lg reveal" data-cat="leadership" onclick="openLightbox(0)">
+                <div class="photo-placeholder">
+                    <div class="photo-inner">
+                        <div class="photo-icon">📸</div>
+                        <div class="photo-caption">Bangabandhu addressing the nation</div>
+                        <div class="photo-date">March 7, 1971</div>
+                    </div>
+                    <div class="photo-zoom-hint">⊕ View</div>
+                </div>
+            </div>
+
+            <div class="photo-item h-md reveal" data-cat="battle" onclick="openLightbox(1)">
+                <div class="photo-placeholder">
+                    <div class="photo-inner">
+                        <div class="photo-icon">📸</div>
+                        <div class="photo-caption">Mukti Bahini fighters crossing the river</div>
+                        <div class="photo-date">July 1971</div>
+                    </div>
+                    <div class="photo-zoom-hint">⊕ View</div>
+                </div>
+            </div>
+
+            <div class="photo-item h-xl reveal" data-cat="civilian" onclick="openLightbox(2)">
+                <div class="photo-placeholder">
+                    <div class="photo-inner">
+                        <div class="photo-icon">📸</div>
+                        <div class="photo-caption">Refugees at the border — East Pakistan</div>
+                        <div class="photo-date">April–June 1971</div>
+                    </div>
+                    <div class="photo-zoom-hint">⊕ View</div>
+                </div>
+            </div>
+
+            <div class="photo-item h-sm reveal" data-cat="victory" onclick="openLightbox(3)">
+                <div class="photo-placeholder">
+                    <div class="photo-inner">
+                        <div class="photo-icon">📸</div>
+                        <div class="photo-caption">Victory celebration, Dhaka</div>
+                        <div class="photo-date">December 16, 1971</div>
+                    </div>
+                    <div class="photo-zoom-hint">⊕ View</div>
+                </div>
+            </div>
+
+            <div class="photo-item h-lg reveal" data-cat="battle" onclick="openLightbox(4)">
+                <div class="photo-placeholder">
+                    <div class="photo-inner">
+                        <div class="photo-icon">📸</div>
+                        <div class="photo-caption">Guerrilla fighters in training</div>
+                        <div class="photo-date">May 1971</div>
+                    </div>
+                    <div class="photo-zoom-hint">⊕ View</div>
+                </div>
+            </div>
+
+            <div class="photo-item h-md reveal" data-cat="leadership" onclick="openLightbox(5)">
+                <div class="photo-placeholder">
+                    <div class="photo-inner">
+                        <div class="photo-icon">📸</div>
+                        <div class="photo-caption">Tājuddin Ahmad — Prime Minister in exile</div>
+                        <div class="photo-date">April 1971</div>
+                    </div>
+                    <div class="photo-zoom-hint">⊕ View</div>
+                </div>
+            </div>
+
+            <div class="photo-item h-xl reveal" data-cat="victory" onclick="openLightbox(6)">
+                <div class="photo-placeholder">
+                    <div class="photo-inner">
+                        <div class="photo-icon">📸</div>
+                        <div class="photo-caption">Pakistani forces surrender, Dhaka Racecourse</div>
+                        <div class="photo-date">December 16, 1971</div>
+                    </div>
+                    <div class="photo-zoom-hint">⊕ View</div>
+                </div>
+            </div>
+
+            <div class="photo-item h-md reveal" data-cat="civilian" onclick="openLightbox(7)">
+                <div class="photo-placeholder">
+                    <div class="photo-inner">
+                        <div class="photo-icon">📸</div>
+                        <div class="photo-caption">Women supporting the liberation movement</div>
+                        <div class="photo-date">1971</div>
+                    </div>
+                    <div class="photo-zoom-hint">⊕ View</div>
+                </div>
+            </div>
+
+            <div class="photo-item h-sm reveal" data-cat="battle" onclick="openLightbox(8)">
+                <div class="photo-placeholder">
+                    <div class="photo-inner">
+                        <div class="photo-icon">📸</div>
+                        <div class="photo-caption">Destroyed village — aftermath of Operation Searchlight</div>
+                        <div class="photo-date">March 1971</div>
+                    </div>
+                    <div class="photo-zoom-hint">⊕ View</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+        <button class="lb-close" onclick="closeLightbox()">✕</button>
+        <button class="lb-prev" onclick="shiftLb(-1)">‹</button>
+        <button class="lb-next" onclick="shiftLb(1)">›</button>
+        <div class="lb-content">
+            <div class="lb-counter" id="lbCounter"></div>
+            <div class="lb-img-area">
+                <div class="lb-big-icon">📸</div>
+                <div class="lb-title" id="lbTitle"></div>
+            </div>
+            <div class="lb-meta" id="lbMeta"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-brand">Liberation War Archive</div>
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doc.html">Documents</a></li>
+            <li><a href="interview.html">Interviews</a></li>
+            <li><a href="photo.html">Photographs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <p class="footer-copy">&copy; 2026 Liberation War Archive. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => entries.forEach((e,i)=>{ if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*80); }),{threshold:0.05});
+        reveals.forEach(el=>observer.observe(el));
+
+        let activeFilter = 'all';
+        function setFilter(cat, btn) {
+            activeFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.photo-item').forEach(item=>{
+                item.style.display = (cat==='all'||item.dataset.cat===cat)?'':'none';
+            });
+        }
+
+        const photos = [
+            {title:'Bangabandhu addressing the nation',date:'March 7, 1971',cat:'Leadership',source:'Government Archives'},
+            {title:'Mukti Bahini fighters crossing the river',date:'July 1971',cat:'Battle',source:'War Correspondents Archive'},
+            {title:'Refugees at the border — East Pakistan',date:'April–June 1971',cat:'Civilian',source:'UNHCR Records'},
+            {title:'Victory celebration, Dhaka',date:'December 16, 1971',cat:'Victory',source:'Bangladesh National Museum'},
+            {title:'Guerrilla fighters in training',date:'May 1971',cat:'Battle',source:'Liberation Forces Archive'},
+            {title:'Tājuddin Ahmad — Prime Minister in exile',date:'April 1971',cat:'Leadership',source:'Mujibnagar Government Records'},
+            {title:'Pakistani forces surrender, Dhaka Racecourse',date:'December 16, 1971',cat:'Victory',source:'Indian Army Records'},
+            {title:'Women supporting the liberation movement',date:'1971',cat:'Civilian',source:'National Archive'},
+            {title:'Destroyed village — aftermath of Operation Searchlight',date:'March 1971',cat:'Battle',source:'International Press'},
+        ];
+        let lbIdx = 0;
+
+        function openLightbox(idx) {
+            lbIdx = idx;
+            renderLb();
+            document.getElementById('lightbox').classList.add('open');
+        }
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+        function shiftLb(dir) { lbIdx = (lbIdx + dir + photos.length) % photos.length; renderLb(); }
+        function renderLb() {
+            const p = photos[lbIdx];
+            document.getElementById('lbTitle').textContent = p.title;
+            document.getElementById('lbCounter').textContent = `${lbIdx+1} / ${photos.length}`;
+            document.getElementById('lbMeta').innerHTML = `
+                <div class="lb-meta-item"><strong>Date:</strong> ${p.date}</div>
+                <div class="lb-meta-item"><strong>Category:</strong> ${p.cat}</div>
+                <div class="lb-meta-item"><strong>Source:</strong> ${p.source}</div>
+            `;
+        }
+        document.addEventListener('keydown', e => {
+            if (e.key==='Escape') closeLightbox();
+            if (e.key==='ArrowLeft') shiftLb(-1);
+            if (e.key==='ArrowRight') shiftLb(1);
+        });
+    </script>
+</body>
+</html>

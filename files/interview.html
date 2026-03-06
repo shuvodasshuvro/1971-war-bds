@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interviews with participants of Bangladesh's Liberation War.">
+    <title>Interviews — Liberation War Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root { --ink:#1a1208; --parchment:#f5efe0; --aged:#e8d9b5; --sepia:#8b6914; --deep-red:#8b1a1a; --gold:#c9a84c; --smoke:#2d2416; --ash:#6b5d4a; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { background:var(--ink); color:var(--parchment); font-family:'EB Garamond',serif; font-size:18px; line-height:1.7; overflow-x:hidden; }
+        body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; opacity:0.4; }
+
+        nav { position:fixed; top:0; left:0; right:0; z-index:1000; padding:0 3rem; display:flex; align-items:center; justify-content:space-between; height:70px; background:rgba(26,18,8,0.97); backdrop-filter:blur(8px); border-bottom:1px solid rgba(201,168,76,0.25); }
+        .nav-brand { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:0.15em; color:var(--gold); text-decoration:none; }
+        .nav-links { display:flex; gap:2.5rem; list-style:none; }
+        .nav-links a { font-family:'EB Garamond',serif; font-size:0.95rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--aged); text-decoration:none; position:relative; transition:color 0.3s; }
+        .nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; right:0; height:1px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s; }
+        .nav-links a:hover { color:var(--gold); } .nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); } .nav-links a.active { color:var(--gold); }
+        .nav-toggle { display:none; background:none; border:1px solid var(--gold); color:var(--gold); padding:0.4rem 0.7rem; cursor:pointer; font-size:1.2rem; }
+
+        .page-header { min-height:45vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:8rem 2rem 4rem; background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(139,26,26,0.1) 0%, transparent 70%), linear-gradient(180deg,#1a1208 0%,#0f0b05 100%); position:relative; overflow:hidden; }
+        .page-header::before { content:'VOICES'; font-family:'Bebas Neue',sans-serif; font-size:clamp(8rem,25vw,20rem); color:rgba(201,168,76,0.04); position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); letter-spacing:0.05em; pointer-events:none; white-space:nowrap; }
+        .page-eyebrow { font-family:'Bebas Neue',sans-serif; letter-spacing:0.35em; font-size:0.8rem; color:var(--gold); margin-bottom:1rem; }
+        .page-title { font-family:'Playfair Display',serif; font-size:clamp(2.5rem,7vw,5.5rem); font-weight:900; color:var(--parchment); line-height:1; }
+        .page-title em { font-style:italic; color:var(--gold); }
+        .page-sub { font-size:1.1rem; color:var(--ash); margin-top:1.5rem; font-style:italic; }
+
+        /* FEATURED INTERVIEW */
+        .featured-wrap { background:var(--smoke); border-top:1px solid rgba(201,168,76,0.2); border-bottom:1px solid rgba(201,168,76,0.2); padding:5rem 2rem; }
+        .featured-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+        .feat-label { font-family:'Bebas Neue',sans-serif; letter-spacing:0.3em; font-size:0.75rem; color:var(--gold); margin-bottom:0.8rem; }
+        .feat-title { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:700; color:var(--parchment); margin-bottom:1rem; line-height:1.1; }
+        .feat-meta { font-size:0.9rem; color:var(--ash); margin-bottom:1.5rem; }
+        .feat-excerpt { color:var(--aged); line-height:1.8; margin-bottom:2rem; font-style:italic; }
+        .feat-btn { display:inline-block; padding:0.85rem 2rem; background:var(--gold); color:var(--ink); font-family:'EB Garamond',serif; font-size:1rem; text-decoration:none; cursor:pointer; border:none; letter-spacing:0.05em; transition:background 0.3s; }
+        .feat-btn:hover { background:var(--parchment); }
+
+        .feat-video { position:relative; background:#000; aspect-ratio:16/9; }
+        .feat-video iframe { width:100%; height:100%; border:none; }
+        .feat-video-placeholder { width:100%; aspect-ratio:16/9; background:rgba(0,0,0,0.5); border:1px solid rgba(201,168,76,0.2); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1rem; color:var(--ash); cursor:pointer; transition:border-color 0.3s; }
+        .feat-video-placeholder:hover { border-color:var(--gold); }
+        .play-btn { width:64px; height:64px; border:2px solid var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--gold); transition:background 0.3s; }
+        .feat-video-placeholder:hover .play-btn { background:rgba(201,168,76,0.15); }
+
+        /* INTERVIEWS GRID */
+        .interviews-main { max-width:1200px; margin:0 auto; padding:5rem 2rem 6rem; }
+        .section-label { font-family:'Bebas Neue',sans-serif; letter-spacing:0.3em; font-size:0.75rem; color:var(--gold); margin-bottom:1rem; }
+        .section-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem); font-weight:700; color:var(--parchment); line-height:1.1; margin-bottom:3rem; }
+        .section-title em { font-style:italic; color:var(--gold); }
+
+        .interviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+
+        .interview-card { background:var(--smoke); border:1px solid rgba(201,168,76,0.1); padding:2.5rem 2rem; display:flex; flex-direction:column; transition:border-color 0.4s; cursor:pointer; }
+        .interview-card:hover { border-color:rgba(201,168,76,0.4); }
+
+        .iv-sector { font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--deep-red); margin-bottom:0.8rem; }
+        .iv-name { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--parchment); margin-bottom:0.3rem; }
+        .iv-role { font-size:0.9rem; color:var(--ash); margin-bottom:1.2rem; font-style:italic; }
+        .iv-quote { font-size:1rem; color:var(--aged); line-height:1.7; flex:1; margin-bottom:1.5rem; border-left:2px solid rgba(201,168,76,0.3); padding-left:1rem; font-style:italic; }
+        .iv-tags { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+        .iv-tag { font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; border:1px solid rgba(107,93,74,0.3); color:var(--ash); padding:0.2rem 0.5rem; }
+        .iv-watch { font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:0.4rem; margin-top:auto; }
+        .iv-watch::before { content:'▶'; font-size:0.7rem; }
+
+        /* MODAL */
+        .iv-modal { display:none; position:fixed; inset:0; z-index:2000; background:rgba(10,7,3,0.92); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:2rem; }
+        .iv-modal.open { display:flex; }
+        .iv-modal-box { background:var(--smoke); border:1px solid rgba(201,168,76,0.25); max-width:900px; width:100%; }
+        .iv-modal-head { padding:2rem 2.5rem 1.5rem; border-bottom:1px solid rgba(201,168,76,0.15); display:flex; justify-content:space-between; align-items:start; }
+        .iv-modal-name { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--parchment); }
+        .iv-modal-close { background:none; border:none; color:var(--ash); font-size:1.5rem; cursor:pointer; transition:color 0.3s; }
+        .iv-modal-close:hover { color:var(--parchment); }
+        .iv-modal-body { padding:2rem 2.5rem; }
+        .iv-modal-video { width:100%; aspect-ratio:16/9; background:#000; margin-bottom:1.5rem; }
+        .iv-modal-video iframe { width:100%; height:100%; border:none; }
+        .iv-modal-bio { font-size:1rem; color:var(--ash); line-height:1.8; }
+
+        footer { background:#0d0905; border-top:1px solid rgba(201,168,76,0.2); padding:3rem 2rem; text-align:center; }
+        .footer-brand { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:0.2em; color:var(--gold); margin-bottom:1rem; }
+        .footer-links { display:flex; justify-content:center; gap:2rem; list-style:none; margin-bottom:1.5rem; }
+        .footer-links a { font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ash); text-decoration:none; transition:color 0.3s; }
+        .footer-links a:hover { color:var(--gold); }
+        .footer-copy { font-size:0.85rem; color:rgba(107,93,74,0.6); }
+
+        .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        @media (max-width:900px) { .featured-inner { grid-template-columns:1fr; } .interviews-grid { grid-template-columns:1fr; } }
+        @media (max-width:768px) { .nav-toggle { display:block; } .nav-links { position:fixed; top:70px; left:0; right:0; background:rgba(26,18,8,0.98); flex-direction:column; gap:0; padding:1rem 0; transform:translateY(-110%); transition:transform 0.3s; border-bottom:1px solid rgba(201,168,76,0.2); } .nav-links.open { transform:translateY(0); } .nav-links a { display:block; padding:0.9rem 2rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="nav-brand" href="index.html">Liberation War Archive</a>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doc.html">Documents</a></li>
+            <li><a href="interview.html" class="active">Interviews</a></li>
+            <li><a href="photo.html">Photographs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <div class="page-eyebrow">Oral History · Firsthand Accounts</div>
+        <h1 class="page-title">Voices of<br><em>Liberation</em></h1>
+        <p class="page-sub">Those who were there — in their own words.</p>
+    </header>
+
+    <!-- FEATURED -->
+    <div class="featured-wrap">
+        <div class="featured-inner reveal">
+            <div>
+                <div class="feat-label">Featured Interview</div>
+                <h2 class="feat-title">Freedom Fighter — Sector 2 Commander</h2>
+                <p class="feat-meta">Recorded 2019 · Duration: 1h 24m · Language: Bangla with English subtitles</p>
+                <p class="feat-excerpt">"We had nothing but our will. No proper weapons, no uniforms — only the knowledge that we were fighting for something worth dying for. The river was our ally and our enemy."</p>
+                <button class="feat-btn" onclick="openModal('Freedom Fighter — Sector 2', 'IfRcK26PBYo', 'A key Mukti Bahini commander who led guerrilla operations across Sector 2 in the eastern region. This extensive interview documents tactical operations, civilian morale, and the human cost of the war.')">Watch Interview</button>
+            </div>
+            <div class="feat-video">
+                <div class="feat-video-placeholder" onclick="openModal('Freedom Fighter — Sector 2', 'IfRcK26PBYo', 'A key Mukti Bahini commander.')">
+                    <div class="play-btn">▶</div>
+                    <span style="font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;">Play Interview</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GRID -->
+    <main class="interviews-main">
+        <div class="section-label">All Testimonies</div>
+        <h2 class="section-title reveal">Collected <em>Oral Histories</em></h2>
+
+        <div class="interviews-grid">
+            <div class="interview-card reveal" onclick="openModal('Lt. Col. Rafiqul Islam', '', 'A decorated Mukti Bahini commander who authored one of the most detailed military accounts of the liberation war.')">
+                <div class="iv-sector">Sector 1 — Chittagong</div>
+                <div class="iv-name">Lt. Col. Rafiqul Islam</div>
+                <div class="iv-role">Sector Commander, Mukti Bahini</div>
+                <p class="iv-quote">"The people were our intelligence network. Every farmer, every fisherman was an eye for us."</p>
+                <div class="iv-tags"><span class="iv-tag">Military</span><span class="iv-tag">Chittagong</span><span class="iv-tag">62 min</span></div>
+                <span class="iv-watch">Watch Testimony</span>
+            </div>
+
+            <div class="interview-card reveal" onclick="openModal('Dr. Najma Khatun', '', 'A physician who ran a field hospital and treated wounded freedom fighters throughout the war.')">
+                <div class="iv-sector">Dhaka Region — Medical Corps</div>
+                <div class="iv-name">Dr. Najma Khatun</div>
+                <div class="iv-role">Field Surgeon, Liberation War</div>
+                <p class="iv-quote">"They brought them in all hours of the night. Boys, most of them. I learned never to ask their names until they were stable."</p>
+                <div class="iv-tags"><span class="iv-tag">Medical</span><span class="iv-tag">Women's Role</span><span class="iv-tag">48 min</span></div>
+                <span class="iv-watch">Watch Testimony</span>
+            </div>
+
+            <div class="interview-card reveal" onclick="openModal('Abdul Hakim Chowdhury', '', 'A civilian survivor who documented Pakistani atrocities in Khulna and later testified before international tribunals.')">
+                <div class="iv-sector">Khulna — Civilian Survivor</div>
+                <div class="iv-name">Abdul Hakim Chowdhury</div>
+                <div class="iv-role">Survivor & Witness</div>
+                <p class="iv-quote">"We hid in the water for three days. The village was gone. Everything was gone. But we were alive."</p>
+                <div class="iv-tags"><span class="iv-tag">Survivor</span><span class="iv-tag">Atrocities</span><span class="iv-tag">35 min</span></div>
+                <span class="iv-watch">Watch Testimony</span>
+            </div>
+
+            <div class="interview-card reveal" onclick="openModal('Major Ziaur Rahman', '', 'The freedom fighter who announced the Declaration of Independence over Swadhin Bangla Betar radio on March 27, 1971.')">
+                <div class="iv-sector">Chittagong — Radio Announcement</div>
+                <div class="iv-name">Major Ziaur Rahman</div>
+                <div class="iv-role">Sector 1 Commander / Announcer</div>
+                <p class="iv-quote">"When I read those words on the radio, my voice trembled — not from fear, but from the weight of what it meant."</p>
+                <div class="iv-tags"><span class="iv-tag">Military</span><span class="iv-tag">Historic</span><span class="iv-tag">78 min</span></div>
+                <span class="iv-watch">Watch Testimony</span>
+            </div>
+
+            <div class="interview-card reveal" onclick="openModal('Sufia Begum', '', 'A Birangona — a woman who survived extraordinary violence and later became an advocate for survivors' recognition.')">
+                <div class="iv-sector">Jessore — Survivor</div>
+                <div class="iv-name">Sufia Begum</div>
+                <div class="iv-role">Birangona — War Survivor</div>
+                <p class="iv-quote">"For years I could not speak. Now I speak so others do not have to carry this silence alone."</p>
+                <div class="iv-tags"><span class="iv-tag">Women</span><span class="iv-tag">Survivor</span><span class="iv-tag">55 min</span></div>
+                <span class="iv-watch">Watch Testimony</span>
+            </div>
+
+            <div class="interview-card reveal" onclick="openModal('Prof. Anisuzzaman', '', 'A prominent intellectual who helped draft the Proclamation of Independence and organized cultural resistance during the war.')">
+                <div class="iv-sector">Dhaka — Intellectual Resistance</div>
+                <div class="iv-name">Prof. Anisuzzaman</div>
+                <div class="iv-role">Scholar & Resistance Organizer</div>
+                <p class="iv-quote">"Culture was our weapon too. Every poem, every song was an act of defiance."</p>
+                <div class="iv-tags"><span class="iv-tag">Intellectual</span><span class="iv-tag">Culture</span><span class="iv-tag">90 min</span></div>
+                <span class="iv-watch">Watch Testimony</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL -->
+    <div class="iv-modal" id="ivModal" onclick="if(event.target===this)closeIvModal()">
+        <div class="iv-modal-box">
+            <div class="iv-modal-head">
+                <h2 class="iv-modal-name" id="ivModalName"></h2>
+                <button class="iv-modal-close" onclick="closeIvModal()">✕</button>
+            </div>
+            <div class="iv-modal-body">
+                <div class="iv-modal-video" id="ivModalVideo"></div>
+                <p class="iv-modal-bio" id="ivModalBio"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-brand">Liberation War Archive</div>
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doc.html">Documents</a></li>
+            <li><a href="interview.html">Interviews</a></li>
+            <li><a href="photo.html">Photographs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <p class="footer-copy">&copy; 2026 Liberation War Archive. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => entries.forEach((e,i)=>{ if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*100); }),{threshold:0.08});
+        reveals.forEach(el=>observer.observe(el));
+
+        function openModal(name, videoId, bio) {
+            document.getElementById('ivModalName').textContent = name;
+            document.getElementById('ivModalBio').textContent = bio;
+            const vid = document.getElementById('ivModalVideo');
+            if (videoId) {
+                vid.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allow="autoplay; encrypted-media" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>`;
+            } else {
+                vid.innerHTML = `<div style="width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;color:var(--ash);font-style:italic;">Video coming soon</div>`;
+            }
+            document.getElementById('ivModal').classList.add('open');
+        }
+        function closeIvModal() {
+            document.getElementById('ivModal').classList.remove('open');
+            document.getElementById('ivModalVideo').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

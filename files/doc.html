@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catalog of historical documents from Bangladesh's Liberation War.">
+    <title>Documents — Liberation War Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1208;
+            --parchment: #f5efe0;
+            --aged: #e8d9b5;
+            --sepia: #8b6914;
+            --deep-red: #8b1a1a;
+            --gold: #c9a84c;
+            --smoke: #2d2416;
+            --ash: #6b5d4a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--ink); color: var(--parchment); font-family: 'EB Garamond', serif; font-size: 18px; line-height: 1.7; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: 0.4; }
+
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; height: 70px; background: rgba(26,18,8,0.97); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(201,168,76,0.25); }
+        .nav-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.15em; color: var(--gold); text-decoration: none; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { font-family: 'EB Garamond', serif; font-size: 0.95rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--aged); text-decoration: none; position: relative; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+        .nav-links a.active { color: var(--gold); }
+        .nav-toggle { display: none; background: none; border: 1px solid var(--gold); color: var(--gold); padding: 0.4rem 0.7rem; cursor: pointer; font-size: 1.2rem; }
+
+        /* PAGE HEADER */
+        .page-header {
+            min-height: 45vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(139,26,26,0.15) 0%, transparent 70%), linear-gradient(180deg, #1a1208 0%, #0f0b05 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before { content: 'DOCUMENTS'; font-family: 'Bebas Neue', sans-serif; font-size: clamp(8rem, 25vw, 20rem); color: rgba(139,26,26,0.06); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); letter-spacing: 0.05em; pointer-events: none; white-space: nowrap; }
+        .page-eyebrow { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.35em; font-size: 0.8rem; color: var(--gold); margin-bottom: 1rem; }
+        .page-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 900; color: var(--parchment); line-height: 1; }
+        .page-title em { font-style: italic; color: var(--gold); }
+
+        /* SEARCH BAR */
+        .search-bar-wrap { background: var(--smoke); border-top: 1px solid rgba(201,168,76,0.15); border-bottom: 1px solid rgba(201,168,76,0.15); padding: 1.5rem 2rem; }
+        .search-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 1rem; align-items: center; }
+        .search-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(201,168,76,0.25); color: var(--parchment); font-family: 'EB Garamond', serif; font-size: 1.05rem; padding: 0.75rem 1.2rem; outline: none; transition: border-color 0.3s; }
+        .search-input::placeholder { color: var(--ash); }
+        .search-input:focus { border-color: var(--gold); }
+        .search-btn { background: var(--gold); color: var(--ink); border: none; padding: 0.75rem 2rem; font-family: 'EB Garamond', serif; font-size: 1rem; cursor: pointer; letter-spacing: 0.05em; transition: background 0.3s; }
+        .search-btn:hover { background: var(--parchment); }
+
+        /* FILTER TABS */
+        .filter-row { max-width: 1100px; margin: 3rem auto 0; padding: 0 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+        .filter-btn { background: none; border: 1px solid rgba(201,168,76,0.2); color: var(--ash); font-family: 'EB Garamond', serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1.3rem; cursor: pointer; transition: all 0.3s; }
+        .filter-btn.active, .filter-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.06); }
+
+        /* DOCS LIST */
+        .docs-main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+
+        .doc-entry {
+            border-bottom: 1px solid rgba(201,168,76,0.12);
+            padding: 2.5rem 0;
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            gap: 2rem;
+            align-items: start;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+        .doc-entry:hover { background: rgba(201,168,76,0.03); }
+
+        .doc-year { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); line-height: 1; letter-spacing: 0.05em; }
+        .doc-month { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ash); margin-top: 0.2rem; }
+
+        .doc-info {}
+        .doc-category { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--deep-red); margin-bottom: 0.4rem; }
+        .doc-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--parchment); margin-bottom: 0.6rem; }
+        .doc-desc { font-size: 1rem; color: var(--ash); }
+        .doc-meta { display: flex; gap: 1.5rem; margin-top: 0.8rem; }
+        .doc-tag { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash); border: 1px solid rgba(107,93,74,0.3); padding: 0.2rem 0.6rem; }
+
+        .doc-action { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; padding-top: 0.3rem; }
+        .btn-view { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; background: none; border: 1px solid rgba(201,168,76,0.3); padding: 0.5rem 1rem; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
+        .btn-view:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+        .btn-dl { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ash); text-decoration: none; background: none; border: none; cursor: pointer; transition: color 0.3s; }
+        .btn-dl:hover { color: var(--parchment); }
+
+        /* MODAL */
+        .doc-modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(10,7,3,0.9); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 2rem; }
+        .doc-modal.open { display: flex; }
+        .modal-box { background: var(--smoke); border: 1px solid rgba(201,168,76,0.25); max-width: 860px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .modal-head { padding: 2rem 2.5rem 1.5rem; border-bottom: 1px solid rgba(201,168,76,0.15); display: flex; justify-content: space-between; align-items: start; }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--parchment); }
+        .modal-close { background: none; border: none; color: var(--ash); font-size: 1.5rem; cursor: pointer; transition: color 0.3s; }
+        .modal-close:hover { color: var(--parchment); }
+        .modal-body { padding: 2rem 2.5rem; }
+        .modal-meta p { font-size: 0.95rem; color: var(--ash); margin-bottom: 0.4rem; }
+        .modal-meta strong { color: var(--parchment); }
+        .modal-doc-frame { width: 100%; height: 500px; margin-top: 1.5rem; border: 1px solid rgba(201,168,76,0.15); background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: var(--ash); font-style: italic; }
+
+        footer { background: #0d0905; border-top: 1px solid rgba(201,168,76,0.2); padding: 3rem 2rem; text-align: center; }
+        .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 1rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; list-style: none; margin-bottom: 1.5rem; }
+        .footer-links a { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
+        .footer-copy { font-size: 0.85rem; color: rgba(107,93,74,0.6); }
+
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .nav-toggle { display: block; }
+            .nav-links { position: fixed; top: 70px; left: 0; right: 0; background: rgba(26,18,8,0.98); flex-direction: column; gap: 0; padding: 1rem 0; transform: translateY(-110%); transition: transform 0.3s; border-bottom: 1px solid rgba(201,168,76,0.2); }
+            .nav-links.open { transform: translateY(0); }
+            .nav-links a { display: block; padding: 0.9rem 2rem; }
+            .doc-entry { grid-template-columns: 1fr; gap: 1rem; }
+            .doc-action { flex-direction: row; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a class="nav-brand" href="index.html">Liberation War Archive</a>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doc.html" class="active">Documents</a></li>
+            <li><a href="interview.html">Interviews</a></li>
+            <li><a href="photo.html">Photographs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <div class="page-eyebrow">Primary Sources · Historical Record</div>
+        <h1 class="page-title">Historical<br><em>Documents</em></h1>
+    </header>
+
+    <div class="search-bar-wrap">
+        <div class="search-inner">
+            <input type="text" class="search-input" placeholder="Search documents by title, date, or keyword…" id="searchInput" oninput="filterDocs()">
+            <button class="search-btn">Search</button>
+        </div>
+    </div>
+
+    <div class="filter-row">
+        <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+        <button class="filter-btn" onclick="setFilter('declaration', this)">Declarations</button>
+        <button class="filter-btn" onclick="setFilter('military', this)">Military</button>
+        <button class="filter-btn" onclick="setFilter('diplomatic', this)">Diplomatic</button>
+        <button class="filter-btn" onclick="setFilter('political', this)">Political</button>
+    </div>
+
+    <main class="docs-main" id="docsList">
+
+        <div class="doc-entry reveal" data-cat="declaration" onclick="openModal('Declaration of Independence', 'March 26, 1971', 'Declaration', 'Government Archives', 'The official declaration by Bangabandhu Sheikh Mujibur Rahman proclaiming the independence of Bangladesh. Transmitted via radio from Chittagong.')">
+            <div>
+                <div class="doc-year">1971</div>
+                <div class="doc-month">March</div>
+            </div>
+            <div class="doc-info">
+                <div class="doc-category">Declaration</div>
+                <div class="doc-title">Declaration of Independence</div>
+                <p class="doc-desc">The founding document of Bangladesh, proclaiming sovereignty and calling the people to resistance against Pakistani military forces.</p>
+                <div class="doc-meta">
+                    <span class="doc-tag">Government Archives</span>
+                    <span class="doc-tag">PDF Available</span>
+                </div>
+            </div>
+            <div class="doc-action">
+                <button class="btn-view">View →</button>
+                <button class="btn-dl">Download</button>
+            </div>
+        </div>
+
+        <div class="doc-entry reveal" data-cat="military" onclick="openModal('Operation Searchlight Orders', 'March 25, 1971', 'Military', 'Declassified Pakistani Archives', 'Declassified orders from Pakistani military command detailing Operation Searchlight — the crackdown that began on the night of March 25, 1971.')">
+            <div>
+                <div class="doc-year">1971</div>
+                <div class="doc-month">March</div>
+            </div>
+            <div class="doc-info">
+                <div class="doc-category">Military</div>
+                <div class="doc-title">Operation Searchlight Orders</div>
+                <p class="doc-desc">Declassified Pakistani military directives outlining the crackdown on Bengali civilians and intelligentsia on the night of March 25.</p>
+                <div class="doc-meta">
+                    <span class="doc-tag">Declassified</span>
+                    <span class="doc-tag">Pakistani Archives</span>
+                </div>
+            </div>
+            <div class="doc-action">
+                <button class="btn-view">View →</button>
+                <button class="btn-dl">Download</button>
+            </div>
+        </div>
+
+        <div class="doc-entry reveal" data-cat="political" onclick="openModal('Bangabandhu\\'s March 7 Speech Transcript', 'March 7, 1971', 'Political', 'Bangla Academy', 'Full transcript of the historic speech delivered at Ramna Race Course, now recognized by UNESCO as a world documentary heritage.')">
+            <div>
+                <div class="doc-year">1971</div>
+                <div class="doc-month">March</div>
+            </div>
+            <div class="doc-info">
+                <div class="doc-category">Political</div>
+                <div class="doc-title">March 7 Speech — Full Transcript</div>
+                <p class="doc-desc">The complete transcript of Sheikh Mujibur Rahman's rallying speech, recognized by UNESCO as Memory of the World heritage.</p>
+                <div class="doc-meta">
+                    <span class="doc-tag">UNESCO Heritage</span>
+                    <span class="doc-tag">Bangla Academy</span>
+                </div>
+            </div>
+            <div class="doc-action">
+                <button class="btn-view">View →</button>
+                <button class="btn-dl">Download</button>
+            </div>
+        </div>
+
+        <div class="doc-entry reveal" data-cat="diplomatic" onclick="openModal('Instrument of Surrender', 'December 16, 1971', 'Diplomatic', 'Indian Army Records', 'The formal surrender document signed by Lt. Gen. A.A.K. Niazi of Pakistan to the Joint Command of Indian and Mukti Bahini forces.')">
+            <div>
+                <div class="doc-year">1971</div>
+                <div class="doc-month">December</div>
+            </div>
+            <div class="doc-info">
+                <div class="doc-category">Diplomatic</div>
+                <div class="doc-title">Instrument of Surrender</div>
+                <p class="doc-desc">The formal surrender document signed on December 16, 1971 — marking the liberation of Bangladesh and the end of the nine-month war.</p>
+                <div class="doc-meta">
+                    <span class="doc-tag">Indian Army Records</span>
+                    <span class="doc-tag">Signed Original</span>
+                </div>
+            </div>
+            <div class="doc-action">
+                <button class="btn-view">View →</button>
+                <button class="btn-dl">Download</button>
+            </div>
+        </div>
+
+        <div class="doc-entry reveal" data-cat="diplomatic" onclick="openModal('Indian Recognition of Bangladesh', 'December 6, 1971', 'Diplomatic', 'Ministry of External Affairs, India', 'Official statement by Indian Prime Minister Indira Gandhi formally recognizing Bangladesh as a sovereign nation.')">
+            <div>
+                <div class="doc-year">1971</div>
+                <div class="doc-month">December</div>
+            </div>
+            <div class="doc-info">
+                <div class="doc-category">Diplomatic</div>
+                <div class="doc-title">Indian Recognition of Bangladesh</div>
+                <p class="doc-desc">Indira Gandhi's official statement recognizing Bangladesh, a pivotal diplomatic moment that shifted the course of the war.</p>
+                <div class="doc-meta">
+                    <span class="doc-tag">Indian MEA</span>
+                    <span class="doc-tag">Official Statement</span>
+                </div>
+            </div>
+            <div class="doc-action">
+                <button class="btn-view">View →</button>
+                <button class="btn-dl">Download</button>
+            </div>
+        </div>
+
+        <div class="doc-entry reveal" data-cat="military" onclick="openModal('Mukti Bahini Sector Commands', 'April 1971', 'Military', 'Bangladesh Liberation Forces', 'Organizational chart and operational directives establishing the eleven sectors of the Mukti Bahini resistance forces.')">
+            <div>
+                <div class="doc-year">1971</div>
+                <div class="doc-month">April</div>
+            </div>
+            <div class="doc-info">
+                <div class="doc-category">Military</div>
+                <div class="doc-title">Mukti Bahini Sector Commands</div>
+                <p class="doc-desc">Organizational structure and orders establishing the eleven operational sectors of Bangladesh's guerrilla liberation forces.</p>
+                <div class="doc-meta">
+                    <span class="doc-tag">Liberation Forces</span>
+                    <span class="doc-tag">Operational</span>
+                </div>
+            </div>
+            <div class="doc-action">
+                <button class="btn-view">View →</button>
+                <button class="btn-dl">Download</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL -->
+    <div class="doc-modal" id="docModal" onclick="if(event.target===this)closeModal()">
+        <div class="modal-box">
+            <div class="modal-head">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-meta">
+                    <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                    <p><strong>Category:</strong> <span id="modalCat"></span></p>
+                    <p><strong>Source:</strong> <span id="modalSource"></span></p>
+                    <p style="margin-top:1rem; color: var(--ash);" id="modalDesc"></p>
+                </div>
+                <div class="modal-doc-frame">
+                    [ Document viewer — PDF would be embedded here ]
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-brand">Liberation War Archive</div>
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doc.html">Documents</a></li>
+            <li><a href="interview.html">Interviews</a></li>
+            <li><a href="photo.html">Photographs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <p class="footer-copy">&copy; 2026 Liberation War Archive. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*100); }), {threshold:0.08});
+        reveals.forEach(el => observer.observe(el));
+
+        let activeFilter = 'all';
+        function setFilter(cat, btn) {
+            activeFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterDocs();
+        }
+        function filterDocs() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.doc-entry').forEach(entry => {
+                const catMatch = activeFilter === 'all' || entry.dataset.cat === activeFilter;
+                const textMatch = !q || entry.innerText.toLowerCase().includes(q);
+                entry.style.display = catMatch && textMatch ? '' : 'none';
+            });
+        }
+
+        function openModal(title, date, cat, source, desc) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDate').textContent = date;
+            document.getElementById('modalCat').textContent = cat;
+            document.getElementById('modalSource').textContent = source;
+            document.getElementById('modalDesc').textContent = desc;
+            document.getElementById('docModal').classList.add('open');
+        }
+        function closeModal() { document.getElementById('docModal').classList.remove('open'); }
+    </script>
+</body>
+</html>

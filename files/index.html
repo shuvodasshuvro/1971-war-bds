@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Liberation War Archive: Preserving the history and memories of Bangladesh's Liberation War through documents, interviews, and photographs.">
+    <meta name="keywords" content="Bangladesh Liberation War, 1971 War, Historical Documents, War Interviews, War Photographs">
+    <title>Liberation War Archive — Bangladesh 1971</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Liberation War Archive",
+        "url": "http://localhost/liberation-war-archive",
+        "description": "An online archive dedicated to the Liberation War of Bangladesh."
+    }
+    </script>
+    <style>
+        :root {
+            --ink: #1a1208;
+            --parchment: #f5efe0;
+            --aged: #e8d9b5;
+            --sepia: #8b6914;
+            --deep-red: #8b1a1a;
+            --gold: #c9a84c;
+            --smoke: #2d2416;
+            --ash: #6b5d4a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--ink);
+            color: var(--parchment);
+            font-family: 'EB Garamond', serif;
+            font-size: 18px;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.4;
+        }
+
+        /* ─── NAVBAR ─── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 0 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            background: rgba(26, 18, 8, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+        }
+
+        .nav-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'EB Garamond', serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--aged);
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; left: 0; right: 0;
+            height: 1px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after,
+        .nav-links a.active::after { transform: scaleX(1); }
+        .nav-links a.active { color: var(--gold); }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.4rem 0.7rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 8rem 2rem 4rem;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 40%, rgba(139, 105, 20, 0.12) 0%, transparent 70%),
+                linear-gradient(180deg, #1a1208 0%, #0f0b05 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '১৯৭১';
+            position: absolute;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(15rem, 35vw, 28rem);
+            color: rgba(201, 168, 76, 0.04);
+            line-height: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.35em;
+            font-size: 0.8rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            animation: fadeUp 1s ease both;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            line-height: 1;
+            color: var(--parchment);
+            margin-bottom: 0.3em;
+            animation: fadeUp 1s ease 0.15s both;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-subtitle {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            font-style: italic;
+            color: var(--ash);
+            max-width: 560px;
+            margin: 1.5rem auto 3rem;
+            animation: fadeUp 1s ease 0.3s both;
+        }
+
+        .hero-divider {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            margin: 0 auto 2.5rem;
+            animation: fadeUp 1s ease 0.35s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeUp 1s ease 0.45s both;
+        }
+
+        .btn-primary-arch {
+            padding: 0.85rem 2.2rem;
+            background: var(--gold);
+            color: var(--ink);
+            font-family: 'EB Garamond', serif;
+            font-size: 1rem;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-primary-arch:hover {
+            background: var(--parchment);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-arch {
+            padding: 0.85rem 2.2rem;
+            background: transparent;
+            color: var(--parchment);
+            font-family: 'EB Garamond', serif;
+            font-size: 1rem;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            border: 1px solid rgba(245, 239, 224, 0.35);
+            cursor: pointer;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .btn-outline-arch:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--ash);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: fadeUp 1s ease 0.6s both;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        /* ─── STATS BAR ─── */
+        .stats-bar {
+            background: var(--smoke);
+            border-top: 1px solid rgba(201, 168, 76, 0.2);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+            padding: 2.5rem 0;
+        }
+
+        .stats-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            border-right: 1px solid rgba(201, 168, 76, 0.15);
+        }
+        .stat-item:last-child { border-right: none; }
+
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ash);
+            margin-top: 0.4rem;
+        }
+
+        /* ─── SECTIONS ─── */
+        section.arch-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .section-label {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.3em;
+            font-size: 0.75rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--parchment);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title em { font-style: italic; color: var(--gold); }
+
+        .section-body {
+            font-size: 1.1rem;
+            color: var(--ash);
+            max-width: 640px;
+            line-height: 1.8;
+        }
+
+        /* ─── FEATURED CARDS ─── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            margin-top: 4rem;
+        }
+
+        .arch-card {
+            position: relative;
+            padding: 3rem 2.5rem;
+            background: var(--smoke);
+            border: 1px solid rgba(201, 168, 76, 0.12);
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+            transition: border-color 0.4s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .arch-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(201, 168, 76, 0.06) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .arch-card:hover { border-color: rgba(201, 168, 76, 0.45); }
+        .arch-card:hover::before { opacity: 1; }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            filter: sepia(1) brightness(0.8);
+        }
+
+        .card-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            color: rgba(201, 168, 76, 0.1);
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            line-height: 1;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--parchment);
+            margin-bottom: 0.8rem;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: var(--ash);
+            flex: 1;
+            margin-bottom: 2rem;
+        }
+
+        .card-link {
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-link::after {
+            content: '→';
+            transition: transform 0.3s;
+        }
+
+        .arch-card:hover .card-link::after { transform: translateX(5px); }
+
+        /* ─── TIMELINE STRIP ─── */
+        .timeline-section {
+            background: var(--smoke);
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 5rem 2rem;
+        }
+
+        .timeline-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 18px; left: 5%; right: 5%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+        }
+
+        .timeline-event {
+            text-align: center;
+            padding: 0 1rem;
+            position: relative;
+        }
+
+        .tl-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            margin: 0 auto 1.2rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 12px rgba(201, 168, 76, 0.5);
+        }
+
+        .tl-date {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.4rem;
+        }
+
+        .tl-text {
+            font-size: 0.85rem;
+            color: var(--ash);
+            line-height: 1.5;
+        }
+
+        /* ─── PULL QUOTE ─── */
+        .pull-quote {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .pull-quote blockquote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 4vw, 2.8rem);
+            font-style: italic;
+            color: var(--parchment);
+            line-height: 1.3;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .pull-quote blockquote::before {
+            content: '"';
+            font-size: 8rem;
+            color: rgba(201, 168, 76, 0.12);
+            position: absolute;
+            top: -2rem;
+            left: -1rem;
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+        }
+
+        .quote-attr {
+            font-family: 'EB Garamond', serif;
+            letter-spacing: 0.15em;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: #0d0905;
+            border-top: 1px solid rgba(201, 168, 76, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ash);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--gold); }
+
+        .footer-copy {
+            font-size: 0.85rem;
+            color: rgba(107, 93, 74, 0.6);
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50% { opacity: 0.4; transform: scaleY(0.7); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── MOBILE NAV ─── */
+        @media (max-width: 768px) {
+            .nav-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 70px; left: 0; right: 0;
+                background: rgba(26, 18, 8, 0.98);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateY(-110%);
+                transition: transform 0.3s;
+                border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+            }
+            .nav-links.open { transform: translateY(0); }
+            .nav-links li { padding: 0; }
+            .nav-links a { display: block; padding: 0.9rem 2rem; }
+
+            .stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .stat-item { border-right: none; border-bottom: 1px solid rgba(201, 168, 76, 0.12); }
+
+            .cards-grid { grid-template-columns: 1fr; }
+            .timeline { grid-template-columns: 1fr; }
+            .timeline::before { display: none; }
+            .timeline-event { text-align: left; display: flex; align-items: flex-start; gap: 1.2rem; padding: 1rem 0; border-bottom: 1px solid rgba(201, 168, 76, 0.1); }
+            .tl-dot { margin: 5px 0 0; flex-shrink: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="mainNav">
+        <a class="nav-brand" href="index.html">Liberation War Archive</a>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="doc.html">Documents</a></li>
+            <li><a href="interview.html">Interviews</a></li>
+            <li><a href="photo.html">Photographs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-eyebrow">Bangladesh · 1971 · Eternal Memory</div>
+        <h1>Liberation War<br><em>Archive</em></h1>
+        <div class="hero-divider"></div>
+        <p class="hero-subtitle">Preserving the stories of courage, sacrifice, and liberation — so that future generations may know the price of freedom.</p>
+        <div class="hero-cta">
+            <a href="doc.html" class="btn-primary-arch">Explore Archive</a>
+            <a href="interview.html" class="btn-outline-arch">Hear the Voices</a>
+        </div>
+        <div class="scroll-hint">
+            <div class="scroll-line"></div>
+            <span>Scroll</span>
+        </div>
+    </header>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stats-inner">
+            <div class="stat-item reveal">
+                <div class="stat-number">3M+</div>
+                <div class="stat-label">Lives Lost</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Months of War</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">200+</div>
+                <div class="stat-label">Documents Archived</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">1971</div>
+                <div class="stat-label">Year of Independence</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <section class="arch-section">
+        <div class="section-label">About This Archive</div>
+        <h2 class="section-title reveal">A Nation's Memory,<br><em>Faithfully Kept</em></h2>
+        <p class="section-body reveal">The Liberation War of Bangladesh in 1971 was a pivotal moment in history — a people's uprising that led to the birth of a nation. This archive gathers primary documents, eyewitness interviews, and rare photographs to preserve an authentic record of sacrifice and struggle.</p>
+    </section>
+
+    <!-- FEATURED CARDS -->
+    <section class="arch-section" style="padding-top: 0;">
+        <div class="section-label">Collections</div>
+        <h2 class="section-title reveal">Explore the<br><em>Historical Record</em></h2>
+        <div class="cards-grid">
+            <a href="doc.html" class="arch-card reveal">
+                <div class="card-num">01</div>
+                <div class="card-icon">📜</div>
+                <h3 class="card-title">Historical Documents</h3>
+                <p class="card-text">Declarations, treaties, telegrams, and official records — the paper trail of a nation's birth.</p>
+                <span class="card-link">View Documents</span>
+            </a>
+            <a href="interview.html" class="arch-card reveal">
+                <div class="card-num">02</div>
+                <div class="card-icon">🎙️</div>
+                <h3 class="card-title">Oral Testimonies</h3>
+                <p class="card-text">Freedom fighters, survivors, and witnesses speak — raw, unfiltered accounts of the war.</p>
+                <span class="card-link">Hear the Stories</span>
+            </a>
+            <a href="photo.html" class="arch-card reveal">
+                <div class="card-num">03</div>
+                <div class="card-icon">📷</div>
+                <h3 class="card-title">Photographs</h3>
+                <p class="card-text">A visual chronicle — rare images that capture the struggle, resilience, and triumph of a people.</p>
+                <span class="card-link">View Gallery</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <div class="timeline-section">
+        <div class="timeline-inner">
+            <div class="section-label">Key Events</div>
+            <h2 class="section-title reveal">Nine Months That<br><em>Changed History</em></h2>
+            <div class="timeline">
+                <div class="timeline-event reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-date">Mar 7, 1971</div>
+                    <p class="tl-text">Sheikh Mujib's historic speech at Ramna Race Course</p>
+                </div>
+                <div class="timeline-event reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-date">Mar 25, 1971</div>
+                    <p class="tl-text">Operation Searchlight — Pakistani military crackdown begins</p>
+                </div>
+                <div class="timeline-event reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-date">Mar 26, 1971</div>
+                    <p class="tl-text">Declaration of Independence proclaimed</p>
+                </div>
+                <div class="timeline-event reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-date">Dec 3, 1971</div>
+                    <p class="tl-text">India enters the war in support of liberation forces</p>
+                </div>
+                <div class="timeline-event reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-date">Dec 16, 1971</div>
+                    <p class="tl-text">Victory Day — Pakistan's surrender and liberation of Bangladesh</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PULL QUOTE -->
+    <div class="pull-quote">
+        <blockquote class="reveal">
+            This time the struggle is for our emancipation. This time the struggle is for our independence.
+        </blockquote>
+        <p class="quote-attr">— Sheikh Mujibur Rahman, March 7, 1971</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-brand">Liberation War Archive</div>
+        <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doc.html">Documents</a></li>
+            <li><a href="interview.html">Interviews</a></li>
+            <li><a href="photo.html">Photographs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <p class="footer-copy">&copy; 2026 Liberation War Archive. All rights reserved. | admin@liberationwararchive.com</p>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => observer.observe(el));
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('mainNav').style.background =
+                window.scrollY > 50 ? 'rgba(26,18,8,0.98)' : 'rgba(26,18,8,0.95)';
+        });
+    </script>
+</body>
+</html>
